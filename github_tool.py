@@ -72,9 +72,9 @@ if __name__ == '__main__':
 
     # set your config
     config = {
-        "key_words": ['cve', 'password'],
+        "key_words": ['cve', 'password'],      #监控的关键词，可多个监控
         "intval": 10,  # 发送间隔, 单位为s;
-        "SCKEY": 'SCU101376Tc3df05a80e67d65e77d0b707ca3f6a7d5ee2445b03cae',  # Server酱 KEY
+        "SCKEY": 'key',  # Server酱 KEY
     }
 
     info_list = []
