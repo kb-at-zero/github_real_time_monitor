@@ -6,3 +6,5 @@
 http://sc.ftqq.com/3.version
 
 ![run](https://github.com/ZTHacker/github_real_time_monitor/blob/master/github.png)
+
+![tongzhi](https://github.com/ZTHacker/github_real_time_monitor/blob/master/tongzhi.png)
