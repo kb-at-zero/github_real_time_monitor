@@ -1,0 +1,2 @@
+# github_real_time_monitor
+实时监控GitHub关键词，使用Server酱推送给微信
