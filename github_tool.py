@@ -1,12 +1,12 @@
-
 #_*_ coding: utf-8 _*_
 import requests
 import json
 import time
 
+header = {}
 
 def Request(api, key):
-    return requests.get(api.format(key)).text
+    return requests.get(api.format(key),verify=False).text
 
 
 def getTotal(api, key):
@@ -27,7 +27,7 @@ def getInfo(api, key, index, send_count):
 # 初始化，获取初始count
 def Init(api, key_words):
     for index in range(len(key_words)):
-        time.sleep(6)
+        time.sleep(20)
         key = key_words[index]
         info_list[index]["key word"] = key
         info_list[index]["flag_total"] = getTotal(api, key)
@@ -36,7 +36,7 @@ def Init(api, key_words):
 # 判断count后将信息存到列表中
 def Update(api, key_words):
     for index in range(len(key_words)):
-        time.sleep(10)
+        time.sleep(20)
         key = key_words[index]
         total = getTotal(api, key)
         if info_list[index]["flag_total"] < total:
@@ -61,7 +61,7 @@ def Send(info_list, key):
                 "text": title,
                 "desp": desp
             }
-            res = requests.post(url, data=data)
+            res = requests.post(url, data=data,verify=False)
 
 
 
@@ -72,9 +72,9 @@ if __name__ == '__main__':
 
     # set your config
     config = {
-        "key_words": ['cve', 'password'],      #监控的关键词，可多个监控
-        "intval": 10,  # 发送间隔, 单位为s;
-        "SCKEY": 'key',  # Server酱 KEY
+        "key_words": ['CVE-2020', 'password'],      #监控的关键词，可多个监控
+        "intval": 100,  # 发送间隔, 单位为s;
+        "SCKEY": 'you key',  # Server酱 KEY
     }
 
     info_list = []
@@ -84,8 +84,16 @@ if __name__ == '__main__':
     Init(api, config["key_words"])
     
     while 1:
-        print("waiting to update...      " + time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
-        time.sleep(config["intval"])
-        Update(api, config["key_words"])
-        print(info_list) # 控制台打印信息
-        Send(info_list, config["SCKEY"]) # 推送信息到微信
+        try:
+            print("waiting to update...      " + time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
+            time.sleep(config["intval"])
+            Update(api, config["key_words"])
+            print(info_list) # 控制台打印信息
+            Send(info_list, config["SCKEY"]) # 推送信息到微信
+        except:
+            print("Connection refused by the server..")
+            print("Let me sleep for 5 seconds")
+            print("ZZZzzz...")
+            time.sleep(5)
+            print("Was a nice slepp ,now let me continue...")
+            continue
